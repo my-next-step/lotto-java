@@ -42,7 +42,7 @@ public final class WinningLotto {
     }
 
     private final void validateLottoNumberConflict(Lotto winningLotto, LottoNumber bonusLottoNumber) {
-        if (winningLotto.isIncludeLottoNumber(bonusLottoNumber)) {
+        if (winningLotto.contains(bonusLottoNumber)) {
             throw new LottoNumberConflictException();
         }
     }
@@ -56,7 +56,7 @@ public final class WinningLotto {
     }
 
     private final boolean isIncludeLottoNumber(Lotto lotto) {
-        return lotto.isIncludeLottoNumber(bonusLottoNumber);
+        return lotto.contains(bonusLottoNumber);
     }
 
 }

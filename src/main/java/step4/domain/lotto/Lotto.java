@@ -18,13 +18,13 @@ public final class Lotto {
 
     private final Set<LottoNumber> lotto;
 
+    public static final Lotto of(List<LottoNumber> lotto) {
+        return of(new HashSet<>(lotto));
+    }
+
     private Lotto(Set<LottoNumber> lotto) {
         validateSize(lotto);
         this.lotto = lotto;
-    }
-
-    public static final Lotto of(List<LottoNumber> lotto) {
-        return of(new HashSet<>(lotto));
     }
 
     public static final Lotto of(Set<LottoNumber> lotto) {
@@ -32,14 +32,10 @@ public final class Lotto {
     }
 
     public static final Lotto of(String lotto) {
-        return of(convertStringToLottoNumberSet(lotto));
-    }
-
-    private static final Set<LottoNumber> convertStringToLottoNumberSet(String sentence) {
-        validateStringFormat(sentence);
-        return Stream.of(sentence.split(COMMA_WITH_BLANK))
+        validateStringFormat(lotto);
+        return of(Stream.of(lotto.split(COMMA_WITH_BLANK))
                 .map(LottoNumber::valueOf)
-                .collect(Collectors.toCollection(TreeSet::new));
+                .collect(Collectors.toSet()));
     }
 
     private static final void validateStringFormat(String sentence) {
@@ -54,17 +50,18 @@ public final class Lotto {
         }
     }
 
-    public final boolean isIncludeLottoNumber(LottoNumber lottoNumber) {
+    public final boolean contains(LottoNumber lottoNumber) {
         return lotto.contains(lottoNumber);
     }
 
     public final long getCountMatch(Lotto anotherLotto) {
         return lotto.stream()
-                .filter(anotherLotto::isIncludeLottoNumber)
+                .filter(anotherLotto::contains)
                 .count();
     }
 
     public final Set<LottoNumber> getLotto() {
-        return lotto;
+        return new TreeSet<>(lotto);
     }
+
 }

@@ -85,7 +85,7 @@ class LottoTest {
 
         // when
         Lotto lotto = Lotto.of(lottoNumbers);
-        boolean actual = lotto.isIncludeLottoNumber(lottoNumber);
+        boolean actual = lotto.contains(lottoNumber);
 
         // then
         assertThat(actual).isTrue();
